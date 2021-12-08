@@ -38,14 +38,16 @@
             if(event.keyCode == 13){ //Enter key를 눌렀으면...
                 this.value = this.value.trim(); //스페이스바 처리
                     if(this.value.length > 0) { //아무것도 없을때 처리
+                        //span태그 추가하기
                         let newItem = document.createElement('span');
                         $(newItem).addClass("badge bg-info");
                         newItem.innerHTML = this.value;
                         $(newItem).click(spanClickHandler);
                         //---------------------------------------------------------
+                        //버튼 넣어주기
                         let btn = document.createElement("button");
                         btn.innerHTML = "X";
-                        $(btn).addClass("btn btn-dark");
+                        $(btn).addClass("btn btn-dark btn-sm");
                         newItem.appendChild(btn);      
                         $(btn).click(btnClickHandler);
                         //---------------------------------------------------------
@@ -73,8 +75,6 @@
             }
         }
 
-        
-        
         //=========================================================================
         $(document).ready(function(){
             $("span").click(spanClickHandler);
@@ -83,7 +83,6 @@
         $(function () {
             $("#datepicker").datepicker();
         });
-
 
         //=========================================================================
     </script>

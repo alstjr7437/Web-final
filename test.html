@@ -28,22 +28,22 @@
         th{
             border : 1px solid gray;
             background-color: white;
-            width: 200px;
+            width: 250px;
         }
         td{
             border : 1px solid gray;
             background-color: white;
-            width: 200px;
+            width: 250px;
         }
-
 
     </style>
     <script>
         //=========================================================================
         function gid(id) {return document.getElementById(id);}
         //=========================================================================
+        //열을 추가하는 함수
         function appendRow(newword, date, time) {
-            //myTBody를 이용하여 새 행을 생성한다
+            //tbodyToDo를 이용하여 새 행을 생성한다
             let tbodyToDo = gid("tbodyToDo")
             let newRow = tbodyToDo.insertRow(tbodyToDo.rows.length);
             //생성된 새 행(newRow)을 이용하여 내부에 두개의 행을 생성한다.
@@ -52,17 +52,20 @@
             let cell2 = newRow.insertCell(2);
             let cell3 = newRow.insertCell(3);
             let cell4 = newRow.insertCell(4);
+            let cell5 = newRow.insertCell(5);
             //생성된 셀에 필요한 내용을 저장한다.
             cell0.innerHTML
-            cell1.innerHTML = "<strong>" + date + "</strong>";
-            cell2.innerHTML = "<strong>" + time + "</strong>";
-            cell3.innerHTML = "<Strong>" + newword + "</Strong>"; 
-            cell4.innerHTML = "X";
+            cell1.innerHTML;
+            cell2.innerHTML = "<strong>" + date + "</strong>";
+            cell3.innerHTML = "<strong>" + time + "</strong>"; 
+            cell4.innerHTML = "<Strong>" + newword + "</Strong>";
+            cell5.innerHTML = "X";
             //생성된 셀에 필요한 이벤트 핸들러를 저장한다.
             cell1.click(spanClickHandler);
-            cell4.click(btnClickHandler)
+            cell5.click(btnClickHandler)
         }
         //=========================================================================
+        //엔터를 누르면 입력이 되는 함수
         function keydownHandler(){
             if(event.keyCode == 13){ //Enter key를 눌렀으면... 
                 let date = gid("idate");
@@ -76,6 +79,7 @@
             }
         } 
         //=========================================================================
+        //완료버튼을 누르면 입력이 되도록 하는 함수
         function finishHandler(){
             let newItem = gid("newItem");
             let date = gid("idate");
@@ -88,7 +92,7 @@
                 newItem.value = "";        //엔터치고 비우기
         }
         //=========================================================================
-        //click한 버튼을 포함하는 span 객체(버튼의 부모노드)를 삭제한다.
+        //click한 버튼을 포함하는 객체(버튼의 부모노드)를 삭제한다.
         function btnClickHandler(){
             $(this.parentNode).remove();
         }
@@ -105,12 +109,12 @@
         }
 
         //=========================================================================
+        //html문서가 준비되면 함수들 돌리는 곳
         $(document).ready(function(){
             $("span").click(spanClickHandler);
             $("#newItem").keydown(keydownHandler);
             $("#btnFinish").click(finishHandler);
         });
-
         //=========================================================================
     </script>
 </head>
@@ -130,6 +134,7 @@
         <table>
             <thead>
                 <th>완료</th>
+                <th>남은 시간</th>
                 <th>날짜</th>
                 <th>시간</th>
                 <th>내용</th>
@@ -143,6 +148,7 @@
         <table>
             <thead>
                 <th>완료</th>
+                <th>남은 시간</th>
                 <th>날짜</th>
                 <th>시간</th>
                 <th>내용</th>

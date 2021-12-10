@@ -70,10 +70,17 @@
             //생성된 셀에 필요한 내용을 저장한다.
             cell0.innerHTML
             cell1.innerHTML
-            cell2.innerHTML = "<strong>" + date + "</strong>";
+            if(date == NaN){
+                cell2.innerHTML = "오늘"
+            } else {
+                cell2.innerHTML = "<strong>" + date + "</strong>";
+            }
             cell3.innerHTML = "<strong>" + time + "</strong>"; 
             cell4.innerHTML = "<Strong>" + newword + "</Strong>";
             cell5.innerHTML = "X";
+            if(newword == "hi"){
+                this.appendChild.addClass('table-primary');
+            }
             //생성된 셀에 필요한 이벤트 핸들러를 저장한다.
             $(cell1).click(spanClickHandler);
             $(cell5).click(btnClickHandler);
@@ -98,6 +105,7 @@
             let newItem = gid("newItem");
             let date = gid("idate");
             let time = gid("itime");
+            console.log(time);
             newItem.value = newItem.value.trim();
                 if(newItem.value.length == 0) {    //스페이스바로 비워져있으면
                     return;
@@ -161,7 +169,7 @@
     </div>
     <div id = "divClock" class = "clock"> </div>
     <hr>
-    기 간 : <input type="date" id = "idate" > <input type="time" id = "itime" value = "12:00">
+    기 간 : <input type="date" id = "idate"> <input type="time" id = "itime" value = "12:00">
 
     <br>
     해야할 일 : <input type="text" id="newItem" size="30">

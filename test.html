@@ -17,6 +17,17 @@
             margin :0px auto;
             text-align: center;
         }
+        #divClock{
+            font-size: 20px;
+            color: gray;
+            height:40px;
+            text-align: end;
+        }
+        #divName{
+            margin :0px auto;
+            text-align: center;
+            height:50px;
+        }
         .alert{
             width:500px;
             height: 300px;
@@ -61,8 +72,8 @@
             cell4.innerHTML = "<Strong>" + newword + "</Strong>";
             cell5.innerHTML = "X";
             //생성된 셀에 필요한 이벤트 핸들러를 저장한다.
-            cell1.click(spanClickHandler);
-            cell5.click(btnClickHandler)
+            $(cell1).click(spanClickHandler);
+            $(cell5).click(btnClickHandler);
         }
         //=========================================================================
         //엔터를 누르면 입력이 되는 함수
@@ -107,21 +118,46 @@
                 gid("tbodyToDo").appendChild(this);
             } 
         }
-
+ 
         //=========================================================================
         //html문서가 준비되면 함수들 돌리는 곳
         $(document).ready(function(){
             $("span").click(spanClickHandler);
             $("#newItem").keydown(keydownHandler);
             $("#btnFinish").click(finishHandler);
+
+        //--------------------------------------------------------------------------
+            let divClock = gid("divClock");
+
+            function setTime(){
+                let time = new Date();
+                let print = "";
+                print += time.getFullYear() + "년 "
+                print += time.getMonth() + "월 " 
+                print += time.getDate() + "일 <br>"
+                if(time.getHours()>12){      //시간이 12보다 크다면 오후 아니면 오전
+                    print += "오후 ";
+                    print += time.getHours()-12+"시 ";
+                }
+                else {
+                    print += "오전 ";
+                    print += time.getHours()+"시 ";
+                }
+                print += time.getMinutes()+"분 ";
+                print += time.getSeconds()+"초";
+                divClock.innerHTML = print
+            }
+            setTime();
+            setInterval(setTime, 1000);
         });
         //=========================================================================
     </script>
 </head>
 <body>
-    <div id="test">
+    <div id="divName">
         <h1>ToDo List Project</h1>
     </div>
+    <div id = "divClock" class = "clock"> </div>
     <hr>
     기 간 : <input type="date" id = "idate" > <input type="time" id = "itime" value = "12:00">
 

@@ -6,14 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="./jquery-3.6.0.min.js"></script>
     <script>
-        var stDate = new Date().getTime();
+        var stDate = new Date();
         var edDate = new Date('2021-12-20 24:00:00').getTime(); // 종료날짜
         var RemainDate = edDate - stDate;
  
         function msg_time() {
-            var hours = Math.floor((RemainDate % (1000 * 60 * 60 * 24)) / (1000*60*60));
-            var miniutes = Math.floor((RemainDate % (1000 * 60 * 60)) / (1000*60));
-            var seconds = Math.floor((RemainDate % (1000 * 60)) / 1000);
+            let hours = Math.floor((RemainDate % (1000 * 60 * 60 * 24)) / (1000*60*60));
+            let miniutes = Math.floor((RemainDate % (1000 * 60 * 60)) / (1000*60));
+            let seconds = Math.floor((RemainDate % (1000 * 60)) / 1000);
   
             m = hours + "시간 " +  miniutes + "분 " + seconds + "초" ; // 남은 시간 text형태로 변경
   
@@ -28,6 +28,7 @@
         }
         
         $(document).ready(function(){
+            msg_time();
             tid=setInterval('msg_time()',1000); // 타이머 1초간격으로 수행
         });
 

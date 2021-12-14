@@ -52,6 +52,8 @@
             newItem.innerHTML = strToken;
             $(newItem).click(spanClickHandler);
             gid(listName).appendChild(newItem);
+
+            saveButtonClickHandler();
         }
         //=========================================================================
         //click한 버튼을 포함하는 span 객체(버튼의 부모노드)를 삭제한다.
@@ -68,6 +70,7 @@
             } else {
                 gid("listToDo").appendChild(this);
             }
+            saveButtonClickHandler();
         }
 
         //=========================================================================
@@ -111,14 +114,12 @@
                 pushTokenToList(item, listDone.listName);
         }
         //=========================================================================
-        window.onunload(){
-            
-        }
+        window.onunload = readListFromLocalStorage;
         $(document).ready(function(){
             readListFromLocalStorage()
             $("span").click(spanClickHandler);
             $("#newItem").keydown(keydownHandler);
-            $("#saveAll").click(saveButtonClickHandler);
+            // $("#saveAll").click(saveButtonClickHandler);
         });
         //=========================================================================
     </script>
@@ -132,7 +133,7 @@
 
     <br>
     해야할 일 : <input type="text" id="newItem" size="30"> 
-    <button id = "saveAll">Save list </button> 
+    <!-- <button id = "saveAll">Save list </button>  -->
     <hr>
     <h3>ToDo List</h3>
     <div class="alert alert-success" id="listToDo"></div>

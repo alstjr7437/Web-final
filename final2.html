@@ -41,25 +41,17 @@
         //=========================================================================
         function keydownHandler(){
             if(event.keyCode == 13){ //Enter key를 눌렀으면...
-                this.value = this.value.trim(); //스페이스바 처리
-                    if(this.value.length > 0) { //아무것도 없을때 처리
-                        //span태그 추가하기
-                        let newItem = document.createElement('span');
-                        $(newItem).addClass("badge bg-info");
-                        newItem.innerHTML = this.value;
-                        $(newItem).click(spanClickHandler);
-                        //---------------------------------------------------------
-                        //버튼 넣어주기
-                        let btn = document.createElement("button");
-                        btn.innerHTML = "X";
-                        $(btn).addClass("btn btn-dark btn-sm");
-                        newItem.appendChild(btn);      
-                        $(btn).click(btnClickHandler);
-                        //---------------------------------------------------------
-                        gid("listToDo").appendChild(newItem);
-                        this.value = "";
-                }
-            } 
+                pushTokenToList(this.value, "listToDo");
+                this.value = "";
+            }
+        } 
+        //=========================================================================
+        function pushTokenToList(strToken, listName){
+            let newItem = document.createElement("span");
+            $(newItem).addClass("badge bg-info");
+            newItem.innerHTML = strToken;
+            $(newItem).click(spanClickHandler);
+            gid(listName).appendChild(newItem);
         }
         //=========================================================================
         //click한 버튼을 포함하는 span 객체(버튼의 부모노드)를 삭제한다.
@@ -79,14 +71,52 @@
         }
 
         //=========================================================================
+        function saveList(listName){
+            //0. 수집할 정보를 저장할 빈 객체 생성하기
+            let list = {
+                itemList: [],           //span.innerHTML 값들을 저장할 배열
+                listName: listName      //span들이 포함된 div.id
+            }
+            //1. listName에 포함된 span 모두 가져오기
+            let spanArray = gid(listName).querySelectorAll("span");
+
+            //2. 각 span의 속성 innerHTML 값을 모으기
+            for(let item of spanArray){
+                list.itemList.push(item.innerHTML);
+            }
+
+            //3. 수집한 정보를 localStorage에 저장하기
+            localStorage.setItem(listName, JSON.stringify(list));
+        }
+        //=========================================================================
+        function saveButtonClickHandler() {
+            //1. listToDo의 모든 항목을 저장한다.
+            saveList("listToDo");
+            //2. listDone의 모든 항목을 저장한다.
+            saveList("listDone");
+        }
+        //=========================================================================
+        function readListFromLocalStorage(){
+            let check = localStorage.getItem("listToDo");
+            if(check == null)
+                return;
+            let listToDo = JSON.parse(check);
+            let listDone = JSON.parse(localStorage.getItem("listDone"));
+
+            //차례로 각 리스트의 항목들을 저장한다.
+            for(let item of listToDo.itemList)
+                pushTokenToList(item, listToDo.listName);
+
+            for(let item of listDone.itemList)
+                pushTokenToList(item, listDone.listName);
+            
+        }
         $(document).ready(function(){
+            readListFromLocalStorage()
             $("span").click(spanClickHandler);
             $("#newItem").keydown(keydownHandler);
+            $("#saveAll").click(saveButtonClickHandler);
         });
-        $(function () {
-            $("#datepicker").datepicker();
-        });
-
         //=========================================================================
     </script>
 </head>
@@ -99,6 +129,7 @@
 
     <br>
     해야할 일 : <input type="text" id="newItem" size="30"> 
+    <button id = "saveAll">Save list </button> 
     <hr>
     <h3>ToDo List</h3>
     <div class="alert alert-success" id="listToDo"></div>

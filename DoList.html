@@ -71,8 +71,6 @@
         //=========================================================================
         //열을 추가하는 함수
         function appendRow(newword, date, time) {
-            let check = document.createElement("input");
-            check.setAttribute("type", "checkbox");
 
             //tbodyToDo를 이용하여 새 행을 생성한다
             let tbodyToDo = gid("tbodyToDo")
@@ -85,21 +83,20 @@
             let cell4 = newRow.insertCell(4);
             let cell5 = newRow.insertCell(5);
 
-            cell0.appendChild(check);
-            //생성된 셀에 필요한 내용을 저장한다.
+            //처음에 들어갈 체크박스를 만든다.
+            let check = document.createElement("input");
+            check.setAttribute("type", "checkbox");
 
+            //생성된 셀에 필요한 내용을 저장한다.
+            cell0.appendChild(check);
             cell1.innerHTML
-            if(date == NaN){
-                cell2.innerHTML = "오늘"
-            } else {
-                cell2.innerHTML = "<strong>" + date + "</strong>";
-            }
+            cell2.innerHTML = "<strong>" + date + "</strong>";
             cell3.innerHTML = "<strong>" + time + "</strong>"; 
             cell4.innerHTML = "<Strong>" + newword + "</Strong>";
-            cell5.innerHTML = "X";
+            cell5.innerHTML = "<Strong>" + "삭제" + "</Strong>";
 
             //생성된 셀에 필요한 이벤트 핸들러를 저장한다.
-            $(cell0).click(btnFinishHandler);
+            $(check).click(btnFinishHandler);
             $(cell5).click(btnDeleteHandler);
         }
         //=========================================================================
@@ -122,7 +119,6 @@
             let newItem = gid("newItem");
             let date = gid("idate");
             let time = gid("itime");
-            console.log(time);
             newItem.value = newItem.value.trim();
                 if(newItem.value.length == 0) {    //스페이스바로 비워져있으면
                     return;
@@ -138,12 +134,12 @@
         //=========================================================================
         // 클릭한 span 객체를 listDone 객체의 자식노드로 보낸다.(연결한다)
         function btnFinishHandler(){
-            let parentID = this.parentNode('id')
-
-            if(parentID == "listToDo"){
-                gid("listDone").parentNode(this.rows);
+            let parentId = this.parentNode.parentNode.parentNode.getAttribute('id');
+            
+            if(parentId == "tbodyToDo"){
+                gid("tbodyDone").appendChild(this.parentNode.parentNode);
             } else {
-                gid("listToDo").parentNode(this.rows);
+                gid("tbodyToDo").appendChild(this.parentNode.parentNode);
             } 
         }
         //=========================================================================
@@ -207,7 +203,7 @@
     </div>
     <h3>Done List</h3>
     <div class="alert alert-danger" id="listDone">
-        <table>
+        <table> 
             <thead>
                 <th id = "thDelete"></th>
                 <th>남은 시간</th>

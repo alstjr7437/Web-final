@@ -1,6 +1,4 @@
 
-function gid(id) {return document.getElementById(id);}
-
 function btnFinishHandler(){
     let parentId = this.parentNode.parentNode.getAttribute('id');
 

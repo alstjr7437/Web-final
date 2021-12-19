@@ -63,6 +63,9 @@
             border :0px;
             background-color: #F8D7DA;
         }
+        #later{
+            color : red
+        }
 
     </style>
     <script>
@@ -87,9 +90,10 @@
             let check = document.createElement("input");
             check.setAttribute("type", "checkbox");
 
+            let inter = setInterval(overTime(date,time), 60000);
             //생성된 셀에 필요한 내용을 저장한다.
             cell0.appendChild(check);
-            cell1.innerHTML
+            cell1.innerHTML =  overTime(date,time);
             cell2.innerHTML = "<strong>" + date + "</strong>";
             cell3.innerHTML = "<strong>" + time + "</strong>"; 
             cell4.innerHTML = "<Strong>" + newword + "</Strong>";
@@ -99,7 +103,8 @@
             $(check).click(btnFinishHandler);
             $(cell5).click(btnDeleteHandler);
         }
-        //=========================================================================
+        //==========================================================================
+        //--------------------------------------------------------------------------
         //엔터를 누르면 입력이 되는 함수
         function keydownHandler(){
             if(event.keyCode == 13){ //Enter key를 눌렀으면... 
@@ -113,7 +118,7 @@
                 this.value = "";        //엔터치고 비우기
             }
         } 
-        //=========================================================================
+        //--------------------------------------------------------------------------
         //완료버튼을 누르면 입력이 되도록 하는 함수
         function finishHandler(){
             let newItem = gid("newItem");
@@ -126,12 +131,13 @@
                 appendRow(newItem.value, date.value, time.value);  //안에 넣기
                 newItem.value = "";        //엔터치고 비우기
         }
-        //=========================================================================
+        //==========================================================================
+        //--------------------------------------------------------------------------
         //click한 버튼을 포함하는 객체(버튼의 부모노드)를 삭제한다.
         function btnDeleteHandler(){
             $(this.parentNode).remove(); 
         }
-        //=========================================================================
+        //--------------------------------------------------------------------------
         // 클릭한 span 객체를 listDone 객체의 자식노드로 보낸다.(연결한다)
         function btnFinishHandler(){
             let parentId = this.parentNode.parentNode.parentNode.getAttribute('id');
@@ -142,14 +148,16 @@
                 gid("tbodyToDo").appendChild(this.parentNode.parentNode);
             } 
         }
-        //=========================================================================
+        //==========================================================================
+        //--------------------------------------------------------------------------
         //현재시간을 보여주기 위한 함수
         function setTime(){
                 let divClock = gid("divClock");
                 let ntime = new Date();
+
                 let print = "";
                 print += ntime.getFullYear() + "년 "
-                print += ntime.getMonth() + "월 " 
+                print += ntime.getMonth() + 1 + "월 " 
                 print += ntime.getDate() + "일 <br>"
                 if(ntime.getHours()>12){      //시간이 12보다 크다면 오후 아니면 오전
                     print += "오후 ";
@@ -160,16 +168,55 @@
                 }
                 print += ntime.getMinutes()+"분 ";
                 print += ntime.getSeconds()+"초";
+                
                 document.all.divClock.innerHTML = print
+        }
+        //-------------------------------------------------------------------------
+        function overTime(date, time){
+            let setDate = new Date(`${date}T${time}:00+0900`)
+            let now = new Date();
+             // D-day 날짜의 연,월,일 구하기
+            let setDateYear = setDate.getFullYear();
+            // getMonth 메서드는 0부터 세기 때문에 +1 해준다.
+            let setDateMonth = setDate.getMonth() + 1;
+            let setDateDay = setDate.getDate();
+
+            let distance = setDate.getTime() - now.getTime();
+
+            let day, hours, minuyes, title;
+
+            if (distance > 0) {
+                day = Math.floor(distance/(1000*60*60*24));
+                hours = Math.floor((distance % (1000*60*60*24))/(1000*60*60));
+                minutes = Math.floor((distance % (1000*60*60))/(1000*60));
+                if(day == 0){
+                    title = `${hours < 10 ? `0${hours}` : hours}시간${minutes < 10 ? `0${minutes}` : minutes}분`;
+                }
+                else {
+                    title = `<strong> ${day}일 ${hours < 10 ? `0${hours}` : hours}시간${minutes < 10 ? `0${minutes}` : minutes}분 </strong>`;
+                }
             }
+            else  {
+                distance = now.getTime() - setDate.getTime(); 
+                day = Math.floor(distance/(1000*60*60*24));
+                hours = Math.floor((distance % (1000*60*60*24))/(1000*60*60));
+                minutes = Math.floor((distance % (1000*60*60))/(1000*60));
+                
+                title = `<strong id = 'later'>${day}일 ${hours < 10 ? `0${hours}` : hours}시간${minutes < 10 ? `0${minutes}` : minutes}분 </strong>`;
+            }
+                
+            return title;
+        }
         //=========================================================================
         //html문서가 준비되면 함수들 돌리는 곳
         $(document).ready(function(){
-
-            setTime();
-            tid=setInterval('setTime()', 1000);
+            setTime();                              //처음에 바로 시간이 보이도록
+            tid=setInterval('setTime()', 1000);     //1초마다 시간이 계속 업데이트
             $("#newItem").keydown(keydownHandler);
             $("#btnFinish").click(finishHandler);    
+
+            //처음 날짜 선택에 현재 날짜 들어가도록 
+            gid('idate').value = new Date().toISOString().substring(0, 10);
         });
  
         //=========================================================================

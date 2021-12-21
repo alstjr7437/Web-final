@@ -18,16 +18,24 @@ div{
     text-align: end;
 }
 #listToDo{
-    width: 800px;
+    width: 750px;
+    height: 400px;
     background-color: #D1E7DD;
     border-radius: 10px;
     padding: 20px;
+    margin-left:5%;
+    overflow-y :auto;
+    float: left;
 }
 #listDone{
-    width: 800px;
+    width: 750px;
+    height: 400px;
     background-color: #F8D7DA;
     border-radius: 10px;
     padding: 20px;
+    margin-right:5%;
+    overflow-y :auto;
+    float: right;
 }
 #table1,#table2{
     width: 700px; 

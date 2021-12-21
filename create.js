@@ -18,7 +18,6 @@ function appendRow(newword, date, time) {
     let cell5 = newRow.insertCell(5);
     
     $(newRow).addClass("table-primary");
-    console.log(tbodyToDo);
     
     //처음에 들어갈 체크박스를 만든다.
     let check = document.createElement("input");
@@ -91,7 +90,6 @@ function btnFinishHandler(){
         parentId = document.getElementById("tbodyToDo");
         trArray = parentId.children;
     } 
-    console.log(trArray)
 
     parentId.insertBefore(tr, trArray[test(date, time, parentId)]);
 }

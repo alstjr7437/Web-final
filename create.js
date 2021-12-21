@@ -18,7 +18,7 @@ function appendRow(newword, date, time) {
     let cell5 = newRow.insertCell(5);
     
     $(newRow).addClass("table-primary");
-    console.log(newRow);
+    console.log(tbodyToDo);
     
     //처음에 들어갈 체크박스를 만든다.
     let check = document.createElement("input");
@@ -77,11 +77,21 @@ function btnDeleteHandler(){
 //--------------------------------------------------------------------------
 // 클릭한 span 객체를 listDone 객체의 자식노드로 보낸다.(연결한다)
 function btnFinishHandler(){
-    let parentId = this.parentNode.parentNode.parentNode.getAttribute('id');
+    let parentId = this.parentNode.parentNode.parentNode;
 
-    if(parentId == "tbodyToDo"){
-        gid("tbodyDone").appendChild(this.parentNode.parentNode);
+    let trArray;
+    let tr = this.parentNode.parentNode;
+    let date = tr.children[2].innerHTML.slice(8,18);
+    let time = tr.children[3].innerHTML.slice(8.13);
+
+    if(parentId.getAttribute('id') == "tbodyToDo"){
+        parentId = document.getElementById("tbodyDone");
+        trArray = parentId.children;
     } else {
-        gid("tbodyToDo").appendChild(this.parentNode.parentNode);
+        parentId = document.getElementById("tbodyToDo");
+        trArray = parentId.children;
     } 
+    console.log(trArray)
+
+    parentId.insertBefore(tr, trArray[test(date, time, parentId)]);
 }

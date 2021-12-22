@@ -7,7 +7,7 @@ function gid(id) {return document.getElementById(id);}
 function appendRow(newword, date, time) {
     //tbodyToDo를 이용하여 새 행을 생성한다
     let tbodyToDo = gid("tbodyToDo")
-    let newRow = tbodyToDo.insertRow(test(date,time,tbodyToDo));
+    let newRow = tbodyToDo.insertRow(order(date,time,tbodyToDo));
     let rows = tbodyToDo.rows.length
     //생성된 새 행(newRow)을 이용하여 내부에 두개의 행을 생성한다.
     let cell0 = newRow.insertCell(0);
@@ -17,7 +17,11 @@ function appendRow(newword, date, time) {
     let cell4 = newRow.insertCell(4);
     let cell5 = newRow.insertCell(5);
     
-    $(newRow).addClass("table-primary");
+    //배경색 설정
+    $(newRow).addClass(backColor(date,time))
+    setInterval(function() {
+        $(newRow).addClass(backColor(date,time))
+    }, 1000);
     
     //처음에 들어갈 체크박스를 만든다.
     let check = document.createElement("input");
@@ -91,5 +95,5 @@ function btnFinishHandler(){
         trArray = parentId.children;
     } 
 
-    parentId.insertBefore(tr, trArray[test(date, time, parentId)]);
+    parentId.insertBefore(tr, trArray[order(date, time, parentId)]);
 }

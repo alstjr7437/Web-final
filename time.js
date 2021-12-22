@@ -35,7 +35,7 @@ function overTime(date, time){
     let setDateDay = setDate.getDate();
     
     let distance = setDate.getTime() - now.getTime();
-    let day, hours, minuyes, title;
+    let day, hours, minutes, title;
     
     if (distance > 0) {
         day = Math.floor(distance/(1000*60*60*24));
@@ -67,7 +67,7 @@ function overTime(date, time){
 
 //-------------------------------------------------------------------------
 //시간별로 순서대로 테이블에 들어가도록 하는 함수
-function test(date, time, table){
+function order(date, time, table){
 let row = table.children;
 let trData1 = [];
 let trData2 = [];
@@ -102,4 +102,50 @@ for(let i=0; i<row.length; i++){
 }
 return rowIndex;
 
+}
+
+//-------------------------------------------------------------------------
+//시간별로 테두리 색이 달라지는 함수
+function backColor(date, time) {
+    let setDate = new Date(`${date}T${time}:00+0900`)
+    let now = new Date();
+        // D-day 날짜의 연,월,일 구하기
+    let setDateYear = setDate.getFullYear();
+    let setDateMonth = setDate.getMonth() + 1;
+    let setDateDay = setDate.getDate();
+    
+    let distance = setDate.getTime() - now.getTime();
+    let day, hours, minutes, backNum;
+
+    day = Math.floor(distance/(1000*60*60*24));
+    hours = Math.floor((distance % (1000*60*60*24))/(1000*60*60));
+    minutes = Math.floor((distance % (1000*60*60))/(1000*60));
+    second = Math.floor((distance % (1000*60) / 1000));
+
+    if(setDate.getTime() < now.getTime()){
+        backNum = "table-dark";
+    } else {4
+        if(day < 365) {
+            backNum = "table-danger";
+            if(day < 30) {
+                backNum = "table-light";
+                if(day < 7) {
+                    backNum = "table-info";
+                    if(day < 1) {
+                        backNum = "table-primary";
+                        if(day < 1 && hours < 12) {
+                            backNum = "table-success";
+                            if (day < 1 && hours < 3) {
+                                backNum = "table-warning";
+                                if (day < 1 && hours < 1) {
+                                    backNum = "table-danger";
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } 
+    }
+    return backNum;
 }

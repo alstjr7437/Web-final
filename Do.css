@@ -11,11 +11,22 @@ div{
     text-align: center;
     height:50px;
 }
+#divLogin{
+    font-size: 15px;
+    float:left;
+    text-align:left;
+    width: 40%;
+}
+#btnLogin{
+    size:10px
+}
 #divClock{
     font-size: 20px;
     color: gray;
     height:40px;
     text-align: end;
+    float: right;
+    width: 30%;
 }
 #listToDo{
     display: inline-block;

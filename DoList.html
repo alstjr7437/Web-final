@@ -10,6 +10,7 @@
     <script src="./jquery-3.6.0.min.js"></script>
     <script src="./create.js"></script>
     <script src="./time.js"></script>
+    <script src="./local.js"></script>
     <script>
         //=========================================================================
         function gid(id) {return document.getElementById(id);}
@@ -20,8 +21,11 @@
         $(document).ready(function(){
             setTime();                              //처음에 바로 시간이 보이도록
             tid=setInterval('setTime()', 1000);     //1초마다 시간이 계속 업데이트
-            $("#newItem").keydown(keydownHandler);
-            $("#btnFinish").click(finishHandler);    
+            $("#newItem").keydown(keydownHandler);  //완료 버튼 누를시 입력
+            $("#btnFinish").click(finishHandler);   //삭제 버튼 누를시
+            $("#password").keydown(keydownHandler2);
+            $("#btnLogin").click(login);  
+            readList();
 
             //처음 날짜 선택에 현재 날짜 들어가도록 
             gid('idate').value = new Date().toISOString().substring(0, 10);
@@ -34,13 +38,21 @@
     <div id="divName">
         <h1>ToDo List</h1>
     </div>
+    <div id = "divLogin">
+        아 이 디 : <input type="text" id ="login" size ="10">
+        <br>
+        비밀번호 : <input type="password" id ="password" size = "10">
+        <button id = "btnLogin" class="btn btn-primary btn-sm" >로 그 인</button>
+    </div>
     <div id = "divClock" class = "clock"> </div>
+    <br>
+    <br>
     <hr>
     기 간 : <input type="date" id = "idate"> <input type="time" id = "itime" value = "12:00">
 
     <br>
     해야할 일 : <input type="text" id="newItem" size="30">
-    <button id = "btnFinish">완료</button>
+    <button id = "btnFinish" class = "btn-success btn-sm">완료</button>
     <hr>
     <div id="listToDo">
         <h3>ToDo List</h3>

@@ -48,7 +48,7 @@ function appendRow(newword, date, time, listName) {
     //생성된 셀에 필요한 이벤트 핸들러를 저장한다.
     $(check).click(btnFinishHandler);
     $(cell5).click(btnDeleteHandler);
-    saveButtonClickHandler();
+    saveTable();
 }
 //==========================================================================
 //--------------------------------------------------------------------------
@@ -63,7 +63,6 @@ function keydownHandler(){
         }
         appendRow(this.value, date.value, time.value, "tbodyToDo");  //안에 넣기
         this.value = "";        //엔터치고 비우기
-        
     }
 } 
 //--------------------------------------------------------------------------
@@ -84,7 +83,7 @@ function finishHandler(){
 //click한 버튼을 포함하는 객체(버튼의 부모노드)를 삭제한다.
 function btnDeleteHandler(){
     $(this.parentNode).remove(); 
-    saveButtonClickHandler();
+    saveTable();
 }
 //--------------------------------------------------------------------------
 // 클릭한 span 객체를 listDone 객체의 자식노드로 보낸다.(연결한다)
@@ -105,57 +104,7 @@ function btnFinishHandler(){
     } 
 
     parentId.insertBefore(tr, trArray[order(date, time, parentId)]);
-    saveButtonClickHandler();
+    saveTable();
 }
 
 //--------------------------------------------------------------------------
-//localStorage함수들..
-//localStorage에 테이블 내용 저장하는 함수
-function saveList(listName) {
-    //수집할 정보 빈 객체 생성
-    let list = {
-        con: [],
-        date: [],
-        time: [],
-        listName: listName
-    }
-    let conArray = gid(listName).querySelectorAll('#localitem')
-    let dateArray = gid(listName).querySelectorAll('#localdate')
-    let timeArray = gid(listName).querySelectorAll('#localtime')
-
-    for(let item of conArray)
-        list.con.push(item.innerHTML.replace('<strong>','').replace('</strong>', ''));
-    for(let item of dateArray)
-        list.date.push(item.innerHTML.replace('<strong>','').replace('</strong>', ''));
-    for(let item of timeArray)
-        list.time.push(item.innerHTML.replace('<strong>','').replace('</strong>', ''));
-    
-    localStorage.setItem(listName, JSON.stringify(list));
-}
-//--------------------------------------------------------------------------
-//--------------------------------------------------------------------------
-//처음 시작할때 불러오는 함수
-function readList(){
-    let check = localStorage.getItem("tbodyToDo");
-
-    if(check == null)
-        return;
-
-    let tbodyToDo = JSON.parse(check);
-    let tbodyDone = JSON.parse(localStorage.getItem("tbodyDone"));
-
-    console.log(tbodyToDo.con)
-    for(let i in tbodyToDo.con){
-        appendRow(tbodyToDo.con[i], tbodyToDo.date[i], tbodyToDo.time[i], tbodyToDo.listName);
-    }
-
-    for(let i in tbodyDone.con){
-        appendRow(tbodyDone.con[i], tbodyDone.date[i], tbodyDone.time[i], tbodyDone.listName);
-    }
-}
-//--------------------------------------------------------------------------
-//각 테이블 저장하는 함수
-function saveButtonClickHandler(){
-    saveList("tbodyToDo");
-    saveList("tbodyDone");
-}

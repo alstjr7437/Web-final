@@ -25,6 +25,8 @@
             $("#btnFinish").click(finishHandler);   //삭제 버튼 누를시
             $("#password").keydown(keydownHandler2);
             $("#btnLogin").click(login);  
+            $("#btnNew").click(saveLogin);
+            $("btnNew2").click(saveLogin2);
             readList();
 
             //처음 날짜 선택에 현재 날짜 들어가도록 
@@ -39,10 +41,14 @@
         <h1>ToDo List</h1>
     </div>
     <div id = "divLogin">
-        아 이 디 : <input type="text" id ="login" size ="10">
-        <br>
+        아 이 디 : <input type="text" id ="login" size ="10"> 
+        
         비밀번호 : <input type="password" id ="password" size = "10">
-        <button id = "btnLogin" class="btn btn-primary btn-sm" >로 그 인</button>
+        <br>
+        사용자 이름 : <input type="text" id="name" size="7">
+        <button id = "btnLogin" class="btn btn-primary btn-sm">로 그 인</button> 
+        <button id = "btnNew" class="btn btn-primary btn-sm">생 성</button>
+        <button id = "btnNew2" class="btn btn-primary btn-sm">처음</button>
     </div>
     <div id = "divClock" class = "clock"> </div>
     <br>

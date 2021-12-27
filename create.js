@@ -6,7 +6,7 @@ function gid(id) {return document.getElementById(id);}
 //열을 추가하는 함수
 function appendRow(newword, date, time, listName) {
     //tbodyToDo를 이용하여 새 행을 생성한다
-    let tbody = gid(listName)
+    let tbody = gid(listName);
     let newRow = tbody.insertRow(order(date,time,tbody));
     //생성된 새 행(newRow)을 이용하여 내부에 두개의 행을 생성한다.
     let cell0 = newRow.insertCell(0);
@@ -22,9 +22,9 @@ function appendRow(newword, date, time, listName) {
     cell4.id = "localitem";
 
     //배경색 설정
-    $(newRow).addClass(backColor(date,time))
-    setInterval(function() {
-        $(newRow).addClass(backColor(date,time))
+    $(newRow).addClass(backColor(date,time));
+    setInterval(function() {    //시간이 바뀌면 배경색도 바꾸기 위해 setInterval
+        $(newRow).addClass(backColor(date,time));
     }, 1000);
     
     //처음에 들어갈 체크박스를 만든다.
@@ -32,7 +32,7 @@ function appendRow(newword, date, time, listName) {
     check.setAttribute("type", "checkbox");
     //done에 있으면 체크박스 클릭 되있도록
     if(tbody == tbodyDone){
-        check.setAttribute("checked", "on")
+        check.setAttribute("checked", "on");
     }
 
     //생성된 셀에 필요한 내용을 저장한다.
@@ -48,6 +48,7 @@ function appendRow(newword, date, time, listName) {
     //생성된 셀에 필요한 이벤트 핸들러를 저장한다.
     $(check).click(btnFinishHandler);
     $(cell5).click(btnDeleteHandler);
+    //테이블 생성 동작할때 마다 저장
     saveTable();
 }
 //==========================================================================
@@ -57,11 +58,11 @@ function keydownHandler(){
     if(event.keyCode == 13){ //Enter key를 눌렀으면... 
         let date = gid("idate");
         let time = gid("itime");
-        this.value = this.value.trim();
-        if(this.value.length == 0) {    //스페이스바로 비워져있으면
+        this.value = this.value.trim(); //아무것도 없거나 스페이스바 방지
+        if(this.value.length == 0) {
             return;
         }
-        appendRow(this.value, date.value, time.value, "tbodyToDo");  //안에 넣기
+        appendRow(this.value, date.value, time.value, "tbodyToDo");  //열 만들기
         this.value = "";        //엔터치고 비우기
     }
 } 
@@ -83,7 +84,7 @@ function finishHandler(){
 //click한 버튼을 포함하는 객체(버튼의 부모노드)를 삭제한다.
 function btnDeleteHandler(){
     $(this.parentNode).remove(); 
-    saveTable();
+    saveTable();    //삭제할때 localStorage도 같이 삭제되도록
 }
 //--------------------------------------------------------------------------
 // 클릭한 span 객체를 listDone 객체의 자식노드로 보낸다.(연결한다)
@@ -104,7 +105,7 @@ function btnFinishHandler(){
     } 
 
     parentId.insertBefore(tr, trArray[order(date, time, parentId)]);
-    saveTable();
+    saveTable();        //옮길때 같이 localStorage도 옮겨지도록
 }
 
 //--------------------------------------------------------------------------

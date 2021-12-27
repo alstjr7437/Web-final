@@ -200,6 +200,8 @@ function logout(){    //아이디 비밀번호 박스 들고오기
         inputId.value = "";
         inputPassword.value = "";
         inputName.value = useName;
+        tbodyToDo.innerHTML = "";
+        tbodyDone.innerHTML = "";
         readList();             //공용 테이블 가져오기
         alert("로그아웃");
     }

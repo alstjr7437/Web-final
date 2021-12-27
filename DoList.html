@@ -19,15 +19,15 @@
         //=========================================================================
         //html문서가 준비되면 함수들 돌리는 곳
         $(document).ready(function(){
-            setTime();                              //처음에 바로 시간이 보이도록
-            tid=setInterval('setTime()', 1000);     //1초마다 시간이 계속 업데이트
-            $("#newItem").keydown(keydownHandler);  //완료 버튼 누를시 입력
-            $("#btnFinish").click(finishHandler);   //삭제 버튼 누를시
-            $("#password").keydown(keydownHandler2);
-            $("#btnLogin").click(login);  
-            $("#btnNew").click(saveLogin);
-            $("btnNew2").click(saveLogin2);
-            readList();
+            setTime();                                  //처음에 바로 시간이 보이도록
+            tid=setInterval('setTime()', 1000);         //1초마다 시간이 계속 업데이트
+            $("#newItem").keydown(keydownHandler);      //내용에서 엔터 입력시
+            $("#btnFinish").click(finishHandler);       //완료 버튼 누를시
+            $("#password").keydown(keydownHandler2);    //비밀번호에서 엔터 누를시
+            $("#btnLogin").click(login);                //login버튼 클릭시
+            $("#btnlogOut").click(logout);              //logout버튼 클릭시
+            $("#btnNew").click(saveLogin);              //생 성버튼 클릭시
+            readList(); //처음 테이블 불러오도록
 
             //처음 날짜 선택에 현재 날짜 들어가도록 
             gid('idate').value = new Date().toISOString().substring(0, 10);
@@ -45,15 +45,13 @@
         
         비밀번호 : <input type="password" id ="password" size = "10">
         <br>
-        사용자 이름 : <input type="text" id="name" size="7">
+        사 용 자 : <input type="text" value = "공용"id="name" size="10">
         <button id = "btnLogin" class="btn btn-primary btn-sm">로 그 인</button> 
+        <button id = "btnlogOut" class="btn btn-primary btn-sm">로그아웃</button>
         <button id = "btnNew" class="btn btn-primary btn-sm">생 성</button>
-        <button id = "btnNew2" class="btn btn-primary btn-sm">처음</button>
     </div>
     <div id = "divClock" class = "clock"> </div>
-    <br>
-    <br>
-    <hr>
+    <br><br><hr>
     기 간 : <input type="date" id = "idate"> <input type="time" id = "itime" value = "12:00">
 
     <br>
